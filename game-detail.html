@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏详情 - GamePortal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-light font-sans min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-dark/90 bg-blur border-b border-gray-800">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                    <i class="fa fa-gamepad text-xl"></i>
+                </div>
+                <span
+                    class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+            </div>
+
+            <!-- 主导航 -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="font-medium hover:text-primary transition-colors">首页</a>
+                <a href="games.html" class="font-medium text-primary border-b-2 border-primary pb-1">游戏库</a>
+                <a href="downloads.html" class="font-medium hover:text-primary transition-colors">资源下载</a>
+                <a href="community.html" class="font-medium hover:text-primary transition-colors">社区</a>
+            </div>
+
+            <!-- 用户操作 -->
+            <div class="flex items-center space-x-4 user-actions">
+                <button
+                    class="hidden md:block px-4 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 transition-colors">
+                    <i class="fa fa-search mr-2"></i>搜索
+                </button>
+                <a href="login.html"
+                    class="px-4 py-2 rounded-lg border border-gray-700 hover:border-primary transition-colors">
+                    登录
+                </a>
+                <a href="register.html" class="px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 transition-colors">
+                    注册
+                </a>
+                <button class="md:hidden text-xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 游戏详情内容 -->
+    <main class="flex-1 pt-32 pb-20">
+        <div class="container mx-auto px-4">
+            <!-- 游戏详情加载中 -->
+            <div id="loading" class="text-center py-20">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary">
+                </div>
+                <p class="mt-4 text-lg">加载游戏详情...</p>
+            </div>
+
+            <!-- 游戏详情内容 -->
+            <div id="game-details" class="hidden space-y-8">
+                <!-- 游戏标题和封面 -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-1">
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden">
+                            <img id="game-image" src="" alt="游戏封面" class="w-full h-auto">
+                        </div>
+                    </div>
+                    <div class="lg:col-span-2">
+                        <h1 id="game-title" class="text-4xl font-bold mb-4"></h1>
+                        <p id="game-description" class="text-xl text-gray-400 mb-6"></p>
+
+                        <div class="flex flex-wrap gap-4 mb-6">
+                            <div id="game-tags" class="flex flex-wrap gap-2"></div>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 text-center">
+                                <div class="text-sm text-gray-400 mb-1">评分</div>
+                                <div id="game-rating" class="text-2xl font-bold"></div>
+                            </div>
+                            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 text-center">
+                                <div class="text-sm text-gray-400 mb-1">下载量</div>
+                                <div id="game-downloads" class="text-2xl font-bold"></div>
+                            </div>
+                            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 text-center">
+                                <div class="text-sm text-gray-400 mb-1">发布日期</div>
+                                <div id="game-release-date" class="text-2xl font-bold"></div>
+                            </div>
+                            <div class="bg-gray-800/50 border border-gray-700 rounded-lg p-4 text-center">
+                                <div class="text-sm text-gray-400 mb-1">大小</div>
+                                <div id="game-size" class="text-2xl font-bold"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-4">
+                            <button id="play-btn"
+                                class="px-6 py-3 rounded-lg bg-primary hover:bg-primary/90 transition-colors font-medium text-lg">
+                                <i class="fa fa-play mr-2"></i>开始游戏
+                            </button>
+                            <button id="download-btn"
+                                class="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors font-medium text-lg">
+                                <i class="fa fa-download mr-2"></i>下载游戏
+                            </button>
+                            <button id="favorite-btn"
+                                class="px-6 py-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors font-medium text-lg">
+                                <i class="fa fa-heart mr-2"></i>收藏
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 游戏详情标签页 -->
+                <div class="bg-gray-800/50 border border-gray-700 rounded-xl">
+                    <div class="flex border-b border-gray-700">
+                        <button class="tab-btn px-6 py-4 border-b-2 border-primary text-primary font-medium"
+                            data-tab="details">游戏详情</button>
+                        <button class="tab-btn px-6 py-4 hover:text-primary transition-colors"
+                            data-tab="system">系统需求</button>
+                        <button class="tab-btn px-6 py-4 hover:text-primary transition-colors"
+                            data-tab="reviews">用户评价</button>
+                        <button class="tab-btn px-6 py-4 hover:text-primary transition-colors"
+                            data-tab="screenshots">截图</button>
+                    </div>
+
+                    <div class="p-6">
+                        <!-- 游戏详情内容 -->
+                        <div id="details-tab" class="tab-content">
+                            <div id="game-details-content"></div>
+                        </div>
+
+                        <!-- 系统需求内容 -->
+                        <div id="system-tab" class="tab-content hidden">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div>
+                                    <h3 class="text-xl font-bold mb-4">最低配置</h3>
+                                    <ul id="min-specs" class="space-y-2"></ul>
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold mb-4">推荐配置</h3>
+                                    <ul id="recommended-specs" class="space-y-2"></ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 用户评价内容 -->
+                        <div id="reviews-tab" class="tab-content hidden">
+                            <div id="game-reviews"></div>
+                        </div>
+
+                        <!-- 截图内容 -->
+                        <div id="screenshots-tab" class="tab-content hidden">
+                            <div id="game-screenshots" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 相关游戏 -->
+                <div>
+                    <h2 class="text-2xl font-bold mb-6">相关游戏</h2>
+                    <div id="related-games" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark border-t border-gray-800 py-8 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                            <i class="fa fa-gamepad text-xl"></i>
+                        </div>
+                        <span
+                            class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">
+                        您的一站式游戏资源平台，提供最新最热的游戏和资源下载。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-discord"></i>
+                        </a>
+                        <a href="#"
+                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition-colors">首页</a></li>
+                        <li><a href="games.html" class="hover:text-primary transition-colors">游戏库</a></li>
+                        <li><a href="downloads.html" class="hover:text-primary transition-colors">资源下载</a></li>
+                        <li><a href="community.html" class="hover:text-primary transition-colors">社区</a></li>
+                        <li><a href="login.html" class="hover:text-primary transition-colors">登录</a></li>
+                        <li><a href="register.html" class="hover:text-primary transition-colors">注册</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-4">支持</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">帮助中心</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">常见问题</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">联系我们</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">隐私政策</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">服务条款</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-lg mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-3 w-5"></i>
+                            <span>support@gameportal.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone mr-3 w-5"></i>
+                            <span>+86 123 4567 8910</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-map-marker mr-3 w-5"></i>
+                            <span>北京市朝阳区游戏大厦</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-6 text-center text-gray-500 text-sm">
+                <p>© 2024 GamePortal. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/auth.js"></script>
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+                header.classList.remove('py-3');
+            } else {
+                header.classList.add('py-3');
+                header.classList.remove('py-2');
+            }
+        });
+
+        // 游戏详情模板
+        class GameDetailTemplate {
+            constructor() {
+                this.gameId = this.getGameIdFromUrl();
+                this.init();
+            }
+
+            getGameIdFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get('id') || '1'; // 默认游戏ID
+            }
+
+            async init() {
+                try {
+                    // 模拟API调用获取游戏数据
+                    const gameData = await this.fetchGameData(this.gameId);
+                    this.renderGameDetails(gameData);
+                    this.bindEvents();
+                } catch (error) {
+                    console.error('加载游戏详情失败:', error);
+                    document.getElementById('loading').innerHTML = `
+                        <div class="text-red-500 text-lg">加载游戏详情失败，请重试</div>
+                        <button onclick="window.location.reload()" class="mt-4 px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 transition-colors">
+                            重试
+                        </button>
+                    `;
+                }
+            }
+
+            async fetchGameData(gameId) {
+                // 模拟API调用
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        // 模拟不同游戏的数据
+                        const games = {
+                            '1': {
+                                id: '1',
+                                title: '星际战甲',
+                                description: '科幻题材第三人称射击游戏，玩家扮演一名拥有强大战甲的战士，在宇宙中与各种敌人战斗。',
+                                image: '?prompt=futuristic%20sci-fi%20game%20cover%20art%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                tags: ['科幻', '射击', '动作', '多人'],
+                                rating: '4.8',
+                                downloads: '12,500',
+                                releaseDate: '2013-03-26',
+                                size: '50GB',
+                                details: '《星际战甲》是一款免费的第三人称射击游戏，由Digital Extremes开发。游戏设定在一个科幻宇宙中，玩家扮演一名拥有强大战甲的Tenno战士，与各种敌人战斗。游戏以其独特的战甲系统、快节奏的战斗和丰富的自定义选项而闻名。',
+                                minSpecs: [
+                                    '操作系统: Windows 7 64-bit',
+                                    '处理器: Intel Core i3-3220 or AMD FX-4350',
+                                    '内存: 4 GB RAM',
+                                    '显卡: NVIDIA GeForce GT 640 or AMD Radeon HD 5570',
+                                    '存储空间: 50 GB 可用空间'
+                                ],
+                                recommendedSpecs: [
+                                    '操作系统: Windows 10 64-bit',
+                                    '处理器: Intel Core i5-4590 or AMD Ryzen 5 1500X',
+                                    '内存: 8 GB RAM',
+                                    '显卡: NVIDIA GeForce GTX 970 or AMD Radeon R9 390',
+                                    '存储空间: 50 GB 可用空间'
+                                ],
+                                reviews: [
+                                    {
+                                        user: '游戏达人',
+                                        avatar: '?prompt=profile%20picture%20of%20a%20gamer%20male%2C%20realistic&image_size=square',
+                                        rating: '5',
+                                        date: '2024-01-10',
+                                        content: '这款游戏太棒了！战甲系统非常有特色，战斗手感也很好。'
+                                    },
+                                    {
+                                        user: '科幻迷',
+                                        avatar: '?prompt=profile%20picture%20of%20a%20gamer%20female%2C%20realistic&image_size=square',
+                                        rating: '4',
+                                        date: '2024-01-08',
+                                        content: '画面精美，玩法丰富，就是初期有点复杂。'
+                                    }
+                                ],
+                                screenshots: [
+                                    '?prompt=futuristic%20sci-fi%20game%20screenshot%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_16_9',
+                                    '?prompt=sci-fi%20game%20combat%20scene%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_16_9',
+                                    '?prompt=futuristic%20game%20environment%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_16_9'
+                                ],
+                                relatedGames: [
+                                    {
+                                        id: '4',
+                                        title: '赛博朋克2077',
+                                        image: '?prompt=cyberpunk%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.5'
+                                    },
+                                    {
+                                        id: '5',
+                                        title: '命运2',
+                                        image: '?prompt=destiny%202%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.6'
+                                    },
+                                    {
+                                        id: '6',
+                                        title: '光环无限',
+                                        image: '?prompt=halo%20infinite%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.7'
+                                    },
+                                    {
+                                        id: '7',
+                                        title: '战争机器5',
+                                        image: '?prompt=gears%20of%20war%205%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.4'
+                                    }
+                                ]
+                            },
+                            '2': {
+                                id: '2',
+                                title: '艾尔登法环',
+                                description: '开放世界角色扮演游戏，由FromSoftware开发，乔治·R·R·马丁参与世界观构建。',
+                                image: '?prompt=fantasy%20role-playing%20game%20cover%20art%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                tags: ['奇幻', '角色扮演', '开放世界', '硬核'],
+                                rating: '4.9',
+                                downloads: '25,000',
+                                releaseDate: '2022-02-25',
+                                size: '60GB',
+                                details: '《艾尔登法环》是一款由FromSoftware开发的开放世界角色扮演游戏，游戏的世界观由著名奇幻作家乔治·R·R·马丁参与构建。游戏继承了FromSoftware一贯的硬核战斗风格，同时引入了开放世界元素，让玩家可以自由探索广阔的游戏世界。',
+                                minSpecs: [
+                                    '操作系统: Windows 10 64-bit',
+                                    '处理器: Intel Core i5-8400 or AMD Ryzen 3 3300X',
+                                    '内存: 12 GB RAM',
+                                    '显卡: NVIDIA GeForce GTX 1060 3GB or AMD Radeon RX 580 4GB',
+                                    '存储空间: 60 GB 可用空间'
+                                ],
+                                recommendedSpecs: [
+                                    '操作系统: Windows 10 64-bit',
+                                    '处理器: Intel Core i7-8700K or AMD Ryzen 5 3600X',
+                                    '内存: 16 GB RAM',
+                                    '显卡: NVIDIA GeForce RTX 2070 SUPER or AMD Radeon RX 6800 XT',
+                                    '存储空间: 60 GB 可用空间'
+                                ],
+                                reviews: [
+                                    {
+                                        user: '硬核玩家',
+                                        avatar: '?prompt=profile%20picture%20of%20a%20gamer%20male%2C%20realistic&image_size=square',
+                                        rating: '5',
+                                        date: '2024-01-12',
+                                        content: 'FromSoftware的杰作，开放世界设计非常出色，战斗系统一如既往地精彩。'
+                                    },
+                                    {
+                                        user: 'RPG爱好者',
+                                        avatar: '?prompt=profile%20picture%20of%20a%20gamer%20female%2C%20realistic&image_size=square',
+                                        rating: '5',
+                                        date: '2024-01-09',
+                                        content: '游戏世界非常美丽，剧情也很吸引人，是近年来最好的RPG之一。'
+                                    }
+                                ],
+                                screenshots: [
+                                    '?prompt=fantasy%20open%20world%20game%20screenshot%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_16_9',
+                                    '?prompt=fantasy%20game%20combat%20scene%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_16_9',
+                                    '?prompt=fantasy%20game%20environment%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_16_9'
+                                ],
+                                relatedGames: [
+                                    {
+                                        id: '8',
+                                        title: '黑暗之魂3',
+                                        image: '?prompt=dark%20souls%203%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.8'
+                                    },
+                                    {
+                                        id: '9',
+                                        title: 'Bloodborne',
+                                        image: '?prompt=bloodborne%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.9'
+                                    },
+                                    {
+                                        id: '10',
+                                        title: ' Sekiro: Shadows Die Twice',
+                                        image: '?prompt=sekiro%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.7'
+                                    },
+                                    {
+                                        id: '11',
+                                        title: '龙与地下城：黑暗联盟',
+                                        image: '?prompt=dungeons%20and%20dragons%20game%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.3'
+                                    }
+                                ]
+                            },
+                            '3': {
+                                id: '3',
+                                title: '现代贪吃蛇',
+                                description: '经典贪吃蛇游戏的现代重制版，具有流畅的动画效果和全新的视觉风格。',
+                                image: '?prompt=modern%20snake%20game%20cover%2C%20neon%20colors%2C%20dark%20theme&image_size=landscape_4_3',
+                                tags: ['休闲', '单人', 'HTML5', '经典'],
+                                rating: '4.5',
+                                downloads: '8,500',
+                                releaseDate: '2024-01-15',
+                                size: '5MB',
+                                details: '《现代贪吃蛇》是经典贪吃蛇游戏的现代重制版，采用流畅的动画效果和现代化的视觉风格。游戏中你需要控制蛇头收集食物，避开障碍物，不断成长。随着等级的提升，游戏速度会逐渐增加，挑战你的反应能力。游戏还加入了道具系统和障碍物，增加了游戏的趣味性和挑战性。',
+                                minSpecs: [
+                                    '操作系统: 任何现代操作系统',
+                                    '浏览器: Chrome, Firefox, Safari, Edge',
+                                    '网络: 无需网络连接',
+                                    '存储空间: 无需安装'
+                                ],
+                                recommendedSpecs: [
+                                    '操作系统: 任何现代操作系统',
+                                    '浏览器: Chrome 90+ 或 Firefox 88+',
+                                    '网络: 无需网络连接',
+                                    '存储空间: 无需安装'
+                                ],
+                                reviews: [
+                                    {
+                                        user: '休闲玩家',
+                                        avatar: '?prompt=profile%20picture%20of%20a%20casual%20gamer%2C%20realistic&image_size=square',
+                                        rating: '4',
+                                        date: '2024-01-16',
+                                        content: '经典游戏的现代重制，画面很好看，操作也很流畅。'
+                                    },
+                                    {
+                                        user: '怀旧玩家',
+                                        avatar: '?prompt=profile%20picture%20of%20a%20retro%20gamer%2C%20realistic&image_size=square',
+                                        rating: '5',
+                                        date: '2024-01-15',
+                                        content: '找回了童年的感觉，但是画面和玩法都有了很大的提升，非常棒！'
+                                    }
+                                ],
+                                screenshots: [
+                                    '?prompt=modern%20snake%20game%20screenshot%2C%20neon%20colors%2C%20dark%20theme&image_size=landscape_16_9',
+                                    '?prompt=snake%20game%20gameplay%20screenshot%2C%20neon%20colors%2C%20dark%20theme&image_size=landscape_16_9',
+                                    '?prompt=snake%20game%20interface%20screenshot%2C%20neon%20colors%2C%20dark%20theme&image_size=landscape_16_9'
+                                ],
+                                relatedGames: [
+                                    {
+                                        id: '12',
+                                        title: '吃豆人',
+                                        image: '?prompt=classic%20pacman%20game%20cover%2C%20modern%20design%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.3'
+                                    },
+                                    {
+                                        id: '13',
+                                        title: '俄罗斯方块',
+                                        image: '?prompt=tetris%20game%20cover%2C%20modern%20design%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.4'
+                                    },
+                                    {
+                                        id: '14',
+                                        title: '贪吃蛇复古版',
+                                        image: '?prompt=snake%20game%20cover%2C%20retro%20design%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.2'
+                                    },
+                                    {
+                                        id: '15',
+                                        title: '乓乓球',
+                                        image: '?prompt=pong%20game%20cover%2C%20modern%20design%2C%20dark%20theme&image_size=landscape_4_3',
+                                        rating: '4.1'
+                                    }
+                                ]
+                            }
+                        };
+
+                        resolve(games[this.gameId] || games['1']);
+                    }, 1000);
+                });
+            }
+
+            renderGameDetails(gameData) {
+                // 填充游戏基本信息
+                document.getElementById('game-title').textContent = gameData.title;
+                document.getElementById('game-description').textContent = gameData.description;
+                document.getElementById('game-image').src = gameData.image;
+                document.getElementById('game-rating').textContent = gameData.rating;
+                document.getElementById('game-downloads').textContent = gameData.downloads;
+                document.getElementById('game-release-date').textContent = gameData.releaseDate;
+                document.getElementById('game-size').textContent = gameData.size;
+
+                // 填充标签
+                const tagsContainer = document.getElementById('game-tags');
+                tagsContainer.innerHTML = gameData.tags.map(tag => `
+                    <span class="px-3 py-1 rounded-full bg-primary/20 text-primary text-sm">${tag}</span>
+                `).join('');
+
+                // 填充游戏详情
+                document.getElementById('game-details-content').innerHTML = `
+                    <p class="text-gray-300 mb-4">${gameData.details}</p>
+                    <div class="mt-6">
+                        <h3 class="text-xl font-bold mb-4">游戏特色</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            ${gameData.tags.map(tag => `<li class="flex items-start">
+                                <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                                <span>${tag}</span>
+                            </li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+
+                // 填充系统需求
+                const minSpecsContainer = document.getElementById('min-specs');
+                minSpecsContainer.innerHTML = gameData.minSpecs.map(spec => `
+                    <li class="flex items-start">
+                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                        <span>${spec}</span>
+                    </li>
+                `).join('');
+
+                const recommendedSpecsContainer = document.getElementById('recommended-specs');
+                recommendedSpecsContainer.innerHTML = gameData.recommendedSpecs.map(spec => `
+                    <li class="flex items-start">
+                        <i class="fa fa-angle-right text-primary mt-1 mr-2"></i>
+                        <span>${spec}</span>
+                    </li>
+                `).join('');
+
+                // 填充用户评价
+                const reviewsContainer = document.getElementById('game-reviews');
+                reviewsContainer.innerHTML = gameData.reviews.map(review => `
+                    <div class="bg-gray-700/50 border border-gray-600 rounded-lg p-4 mb-4">
+                        <div class="flex items-center gap-3 mb-2">
+                            <img src="${review.avatar}" alt="${review.user}" class="w-10 h-10 rounded-full">
+                            <div>
+                                <h4 class="font-medium">${review.user}</h4>
+                                <div class="flex items-center text-sm text-gray-400">
+                                    <div class="flex text-yellow-400 mr-2">
+                                        ${Array(5).fill().map((_, i) => `<i class="fa fa-star ${i < parseInt(review.rating) ? '' : 'text-gray-500'}"></i>`).join('')}
+                                    </div>
+                                    <span>${review.date}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-300">${review.content}</p>
+                    </div>
+                `).join('');
+
+                // 填充截图
+                const screenshotsContainer = document.getElementById('game-screenshots');
+                screenshotsContainer.innerHTML = gameData.screenshots.map(screenshot => `
+                    <div class="bg-gray-700/50 border border-gray-600 rounded-lg overflow-hidden">
+                        <img src="${screenshot}" alt="游戏截图" class="w-full h-48 object-cover">
+                    </div>
+                `).join('');
+
+                // 填充相关游戏
+                const relatedGamesContainer = document.getElementById('related-games');
+                relatedGamesContainer.innerHTML = gameData.relatedGames.map(game => `
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-lg overflow-hidden hover:bg-gray-700 transition-colors">
+                        <img src="${game.image}" alt="${game.title}" class="w-full h-40 object-cover">
+                        <div class="p-4">
+                            <h3 class="font-medium mb-2">${game.title}</h3>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <i class="fa fa-star text-yellow-400"></i>
+                                    <span class="ml-1 text-sm">${game.rating}</span>
+                                </div>
+                                <button class="px-3 py-1 rounded-lg bg-primary hover:bg-primary/90 transition-colors text-sm" onclick="window.location.href='game-detail.html?id=${game.id}'">
+                                    查看详情
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // 显示游戏详情，隐藏加载状态
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('game-details').classList.remove('hidden');
+            }
+
+            bindEvents() {
+                // 标签页切换
+                document.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // 移除所有标签页的活动状态
+                        document.querySelectorAll('.tab-btn').forEach(b => {
+                            b.classList.remove('border-primary', 'text-primary');
+                        });
+
+                        // 添加当前标签页的活动状态
+                        btn.classList.add('border-primary', 'text-primary');
+
+                        // 隐藏所有内容
+                        document.querySelectorAll('.tab-content').forEach(content => {
+                            content.classList.add('hidden');
+                        });
+
+                        // 显示当前内容
+                        const tabId = btn.dataset.tab;
+                        document.getElementById(`${tabId}-tab`).classList.remove('hidden');
+                    });
+                });
+
+                // 按钮事件
+                document.getElementById('play-btn').addEventListener('click', () => {
+                    // 根据游戏ID跳转到相应的游戏页面
+                    if (this.gameId === '3') {
+                        window.location.href = 'snake-game.html';
+                    } else {
+                        alert('游戏即将开始...');
+                    }
+                });
+
+                document.getElementById('download-btn').addEventListener('click', () => {
+                    alert('游戏下载中...');
+                });
+
+                document.getElementById('favorite-btn').addEventListener('click', function () {
+                    this.classList.toggle('bg-red-500');
+                    this.classList.toggle('bg-gray-700');
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('bg-red-500')) {
+                        icon.classList.add('text-white');
+                    } else {
+                        icon.classList.remove('text-white');
+                    }
+                });
+            }
+        }
+
+        // 初始化游戏详情页面
+        document.addEventListener('DOMContentLoaded', function () {
+            new GameDetailTemplate();
+        });
+    </script>
+</body>
+
+</html>

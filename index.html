@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamePortal - 在线游戏与资源下载平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif']
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+            .hover-scale {
+                transition: transform 0.3s ease;
+            }
+            .hover-scale:hover {
+                transform: scale(1.03);
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-light font-sans">
+    <!-- 导航栏 -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-dark/90 bg-blur border-b border-gray-800">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                    <i class="fa fa-gamepad text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+            </div>
+            
+            <!-- 主导航 -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="font-medium hover:text-primary transition-colors">首页</a>
+                <a href="games.html" class="font-medium hover:text-primary transition-colors">游戏库</a>
+                <a href="downloads.html" class="font-medium hover:text-primary transition-colors">资源下载</a>
+                <a href="community.html" class="font-medium hover:text-primary transition-colors">社区</a>
+            </div>
+            
+            <!-- 用户操作 -->
+            <div class="flex items-center space-x-4 user-actions">
+                <button class="hidden md:block px-4 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 transition-colors">
+                    <i class="fa fa-search mr-2"></i>搜索
+                </button>
+                <a href="login.html" class="px-4 py-2 rounded-lg border border-gray-700 hover:border-primary transition-colors">
+                    登录
+                </a>
+                <a href="register.html" class="px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 transition-colors">
+                    注册
+                </a>
+                <button class="md:hidden text-xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="pt-32 pb-20 bg-gradient-to-b from-gray-900 to-dark">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="md:w-1/2 space-y-6">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-shadow">
+                        探索无限游戏世界<br>
+                        <span class="bg-gradient-to-r from-primary to-secondary text-gradient">下载优质资源</span>
+                    </h1>
+                    <p class="text-lg text-gray-400 max-w-xl">
+                        GamePortal为您提供最新最热的游戏资讯、海量游戏资源下载，以及玩家交流社区。
+                        加入我们，开启精彩游戏之旅！
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="games.html" class="px-6 py-3 rounded-lg bg-primary hover:bg-primary/90 transition-all hover:shadow-lg hover:shadow-primary/20 text-lg font-medium">
+                            浏览游戏库
+                        </a>
+                        <a href="downloads.html" class="px-6 py-3 rounded-lg border border-gray-700 hover:border-primary hover:bg-primary/10 transition-all text-lg font-medium">
+                            下载资源
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-6 pt-4">
+                        <div class="flex -space-x-2">
+                            <img src="?prompt=profile%20picture%20of%20a%20gamer%20male%2C%20realistic&image_size=square" alt="User" class="w-10 h-10 rounded-full border-2 border-dark">
+                            <img src="?prompt=profile%20picture%20of%20a%20gamer%20female%2C%20realistic&image_size=square" alt="User" class="w-10 h-10 rounded-full border-2 border-dark">
+                            <img src="?prompt=profile%20picture%20of%20a%20gamer%20young%20man%2C%20realistic&image_size=square" alt="User" class="w-10 h-10 rounded-full border-2 border-dark">
+                            <div class="w-10 h-10 rounded-full bg-gray-800 border-2 border-dark flex items-center justify-center text-xs font-medium">
+                                +12k
+                            </div>
+                        </div>
+                        <div class="text-sm text-gray-400">
+                            <span class="text-white font-medium">99,999+</span> 活跃玩家
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 relative">
+                    <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl hover-scale">
+                        <img src="?prompt=modern%20gaming%20dashboard%20with%20multiple%20game%20screens%2C%20dark%20theme%2C%20realistic&image_size=landscape_16_9" alt="Gaming Dashboard" class="w-full h-auto">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent flex items-end">
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2">游戏数据中心</h3>
+                                <p class="text-gray-300">实时监控游戏性能与资源使用情况</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -top-4 -right-4 w-32 h-32 bg-primary/20 rounded-full filter blur-3xl"></div>
+                    <div class="absolute -bottom-4 -left-4 w-32 h-32 bg-secondary/20 rounded-full filter blur-3xl"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 热门游戏 -->
+    <section class="py-20 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-10">
+                <h2 class="text-3xl font-bold">热门游戏</h2>
+                <a href="games.html" class="text-primary hover:text-primary/80 transition-colors flex items-center">
+                    查看全部 <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- 游戏卡片 1 - 现代贪吃蛇 -->
+                <div class="rounded-xl overflow-hidden bg-gray-800/50 border border-gray-700 hover-scale">
+                    <div class="relative">
+                        <img src="?prompt=modern%20snake%20game%20cover%2C%20neon%20colors%2C%20dark%20theme&image_size=landscape_4_3" alt="现代贪吃蛇" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 left-3 bg-primary/90 text-white text-xs font-medium px-2 py-1 rounded">
+                            热门
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">现代贪吃蛇</h3>
+                        <p class="text-gray-400 text-sm mb-4">流畅的现代版贪吃蛇游戏</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fa fa-star text-yellow-400"></i>
+                                <span class="ml-1 text-sm font-medium">4.5</span>
+                                <span class="ml-2 text-xs text-gray-500">8.5k 评价</span>
+                            </div>
+                            <div class="flex gap-2">
+                                <a href="snake-game.html" class="px-3 py-1 rounded bg-primary hover:bg-primary/90 text-sm transition-colors">
+                                    开始游戏
+                                </a>
+                                <a href="game-detail.html?id=3" class="px-3 py-1 rounded bg-gray-700 hover:bg-gray-600 text-sm transition-colors">
+                                    详情
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 游戏卡片 2 -->
+                <div class="rounded-xl overflow-hidden bg-gray-800/50 border border-gray-700 hover-scale">
+                    <div class="relative">
+                        <img src="?prompt=fantasy%20role-playing%20game%20cover%20art%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3" alt="Game" class="w-full h-48 object-cover">
+                        <div class="absolute top-3 left-3 bg-secondary/90 text-white text-xs font-medium px-2 py-1 rounded">
+                            新发布
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">艾尔登法环</h3>
+                        <p class="text-gray-400 text-sm mb-4">开放世界角色扮演游戏</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fa fa-star text-yellow-400"></i>
+                                <span class="ml-1 text-sm font-medium">4.9</span>
+                                <span class="ml-2 text-xs text-gray-500">2.5k 评价</span>
+                            </div>
+                            <button class="px-3 py-1 rounded bg-primary/20 hover:bg-primary/30 text-sm transition-colors">
+                                详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 游戏卡片 3 -->
+                <div class="rounded-xl overflow-hidden bg-gray-800/50 border border-gray-700 hover-scale">
+                    <div class="relative">
+                        <img src="?prompt=action%20adventure%20game%20cover%20art%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3" alt="Game" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">赛博朋克2077</h3>
+                        <p class="text-gray-400 text-sm mb-4">开放世界动作角色扮演游戏</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fa fa-star text-yellow-400"></i>
+                                <span class="ml-1 text-sm font-medium">4.5</span>
+                                <span class="ml-2 text-xs text-gray-500">3.8k 评价</span>
+                            </div>
+                            <button class="px-3 py-1 rounded bg-primary/20 hover:bg-primary/30 text-sm transition-colors">
+                                详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 游戏卡片 4 -->
+                <div class="rounded-xl overflow-hidden bg-gray-800/50 border border-gray-700 hover-scale">
+                    <div class="relative">
+                        <img src="?prompt=survival%20game%20cover%20art%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3" alt="Game" class="w-full h-48 object-cover">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-bold text-lg mb-2">Valheim</h3>
+                        <p class="text-gray-400 text-sm mb-4">开放世界生存游戏</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fa fa-star text-yellow-400"></i>
+                                <span class="ml-1 text-sm font-medium">4.7</span>
+                                <span class="ml-2 text-xs text-gray-500">1.9k 评价</span>
+                            </div>
+                            <button class="px-3 py-1 rounded bg-primary/20 hover:bg-primary/30 text-sm transition-colors">
+                                详情
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资源下载 -->
+    <section class="py-20 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-10">
+                <h2 class="text-3xl font-bold">热门资源</h2>
+                <a href="downloads.html" class="text-primary hover:text-primary/80 transition-colors flex items-center">
+                    查看全部 <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- 左侧资源 -->
+                <div class="space-y-6">
+                    <!-- 资源卡片 1 -->
+                    <div class="flex bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden hover-scale">
+                        <div class="w-1/3">
+                            <img src="?prompt=game%20mod%20pack%20thumbnail%2C%20high%20quality%2C%20dark%20theme&image_size=square" alt="Resource" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-2/3 p-4 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">GTA V 终极模组包</h3>
+                                <p class="text-gray-400 text-sm mb-3">包含100+个高质量模组，提升游戏体验</p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">GTA V</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">模组</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">2024</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-xs text-gray-500">
+                                    <i class="fa fa-download mr-1"></i> 12.5k 下载
+                                </div>
+                                <button class="px-4 py-2 rounded bg-primary hover:bg-primary/90 text-sm transition-colors">
+                                    下载
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 资源卡片 2 -->
+                    <div class="flex bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden hover-scale">
+                        <div class="w-1/3">
+                            <img src="?prompt=game%20texture%20pack%20thumbnail%2C%20high%20quality%2C%20dark%20theme&image_size=square" alt="Resource" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-2/3 p-4 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">Minecraft 4K材质包</h3>
+                                <p class="text-gray-400 text-sm mb-3">超高清材质，提升游戏视觉效果</p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">Minecraft</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">材质包</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">2024</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-xs text-gray-500">
+                                    <i class="fa fa-download mr-1"></i> 8.3k 下载
+                                </div>
+                                <button class="px-4 py-2 rounded bg-primary hover:bg-primary/90 text-sm transition-colors">
+                                    下载
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧资源 -->
+                <div class="space-y-6">
+                    <!-- 资源卡片 3 -->
+                    <div class="flex bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden hover-scale">
+                        <div class="w-1/3">
+                            <img src="?prompt=game%20soundtrack%20album%20cover%2C%20high%20quality%2C%20dark%20theme&image_size=square" alt="Resource" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-2/3 p-4 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">艾尔登法环 原声音乐</h3>
+                                <p class="text-gray-400 text-sm mb-3">完整游戏原声音乐集，高品质音频</p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">艾尔登法环</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">音乐</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">2024</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-xs text-gray-500">
+                                    <i class="fa fa-download mr-1"></i> 5.7k 下载
+                                </div>
+                                <button class="px-4 py-2 rounded bg-primary hover:bg-primary/90 text-sm transition-colors">
+                                    下载
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 资源卡片 4 -->
+                    <div class="flex bg-gray-800/50 border border-gray-700 rounded-xl overflow-hidden hover-scale">
+                        <div class="w-1/3">
+                            <img src="?prompt=game%20save%20file%20thumbnail%2C%20high%20quality%2C%20dark%20theme&image_size=square" alt="Resource" class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-2/3 p-4 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-lg mb-1">巫师3 全收集存档</h3>
+                                <p class="text-gray-400 text-sm mb-3">100%完成度存档，包含所有DLC内容</p>
+                                <div class="flex flex-wrap gap-2 mb-3">
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">巫师3</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">存档</span>
+                                    <span class="text-xs px-2 py-1 rounded bg-gray-700">2024</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="text-xs text-gray-500">
+                                    <i class="fa fa-download mr-1"></i> 3.2k 下载
+                                </div>
+                                <button class="px-4 py-2 rounded bg-primary hover:bg-primary/90 text-sm transition-colors">
+                                    下载
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 统计数据 -->
+    <section class="py-16 bg-dark">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div class="space-y-2">
+                    <div class="text-3xl md:text-4xl font-bold text-primary">1000+</div>
+                    <div class="text-gray-400">游戏资源</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-3xl md:text-4xl font-bold text-secondary">500+</div>
+                    <div class="text-gray-400">下载资源</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-3xl md:text-4xl font-bold text-accent">12k+</div>
+                    <div class="text-gray-400">活跃用户</div>
+                </div>
+                <div class="space-y-2">
+                    <div class="text-3xl md:text-4xl font-bold text-purple-400">100k+</div>
+                    <div class="text-gray-400">总下载量</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社区动态 -->
+    <section class="py-20 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between mb-10">
+                <h2 class="text-3xl font-bold">社区动态</h2>
+                <a href="community.html" class="text-primary hover:text-primary/80 transition-colors flex items-center">
+                    查看全部 <i class="fa fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 社区帖子 1 -->
+                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                    <div class="flex items-center mb-4">
+                        <img src="?prompt=profile%20picture%20of%20a%20gamer%20male%2C%20realistic&image_size=square" alt="User" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">张三</h4>
+                            <p class="text-xs text-gray-500">2小时前</p>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">《艾尔登法环》最新DLC讨论</h3>
+                    <p class="text-gray-400 text-sm mb-4">大家觉得最新的DLC怎么样？我个人认为 bosses 设计得非常棒，尤其是最后的那个...</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <div class="flex items-center space-x-4">
+                            <span><i class="fa fa-comment mr-1"></i> 24</span>
+                            <span><i class="fa fa-heart mr-1"></i> 156</span>
+                        </div>
+                        <span><i class="fa fa-eye mr-1"></i> 342</span>
+                    </div>
+                </div>
+                
+                <!-- 社区帖子 2 -->
+                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                    <div class="flex items-center mb-4">
+                        <img src="?prompt=profile%20picture%20of%20a%20gamer%20female%2C%20realistic&image_size=square" alt="User" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">李四</h4>
+                            <p class="text-xs text-gray-500">5小时前</p>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">分享一个《赛博朋克2077》的超酷模组</h3>
+                    <p class="text-gray-400 text-sm mb-4">这个模组可以让你在游戏中使用更多的武器和载具，非常推荐给大家...</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <div class="flex items-center space-x-4">
+                            <span><i class="fa fa-comment mr-1"></i> 36</span>
+                            <span><i class="fa fa-heart mr-1"></i> 203</span>
+                        </div>
+                        <span><i class="fa fa-eye mr-1"></i> 512</span>
+                    </div>
+                </div>
+                
+                <!-- 社区帖子 3 -->
+                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                    <div class="flex items-center mb-4">
+                        <img src="?prompt=profile%20picture%20of%20a%20gamer%20young%20man%2C%20realistic&image_size=square" alt="User" class="w-10 h-10 rounded-full mr-3">
+                        <div>
+                            <h4 class="font-medium">王五</h4>
+                            <p class="text-xs text-gray-500">昨天</p>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">求《Valheim》的建筑技巧分享</h3>
+                    <p class="text-gray-400 text-sm mb-4">最近开始玩《Valheim》，想建一个漂亮的基地，有没有大佬分享一些建筑技巧？...</p>
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <div class="flex items-center space-x-4">
+                            <span><i class="fa fa-comment mr-1"></i> 42</span>
+                            <span><i class="fa fa-heart mr-1"></i> 138</span>
+                        </div>
+                        <span><i class="fa fa-eye mr-1"></i> 421</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 订阅区域 -->
+    <section class="py-20 bg-gradient-to-r from-primary/20 to-secondary/20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">获取最新游戏资讯</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-8">订阅我们的邮件列表，及时获取最新的游戏发布、资源更新和社区活动信息</p>
+            <div class="max-w-md mx-auto flex">
+                <input type="email" placeholder="输入您的邮箱地址" class="flex-1 px-4 py-3 rounded-l-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary">
+                <button class="px-6 py-3 rounded-r-lg bg-primary hover:bg-primary/90 transition-colors font-medium">
+                    订阅
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                            <i class="fa fa-gamepad text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">
+                        您的一站式游戏资源平台，提供最新最热的游戏和资源下载。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-discord"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition-colors">首页</a></li>
+                        <li><a href="games.html" class="hover:text-primary transition-colors">游戏库</a></li>
+                        <li><a href="downloads.html" class="hover:text-primary transition-colors">资源下载</a></li>
+                        <li><a href="community.html" class="hover:text-primary transition-colors">社区</a></li>
+                        <li><a href="login.html" class="hover:text-primary transition-colors">登录</a></li>
+                        <li><a href="register.html" class="hover:text-primary transition-colors">注册</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">支持</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">帮助中心</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">常见问题</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">联系我们</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">隐私政策</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">服务条款</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-3 w-5"></i>
+                            <span>support@gameportal.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone mr-3 w-5"></i>
+                            <span>+86 123 4567 8910</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-map-marker mr-3 w-5"></i>
+                            <span>北京市朝阳区游戏大厦</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2024 GamePortal. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/auth.js"></script>
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+                header.classList.remove('py-3');
+            } else {
+                header.classList.add('py-3');
+                header.classList.remove('py-2');
+            }
+        });
+
+        // 模拟后端API调用
+        async function fetchGames() {
+            // 这里将替换为实际的后端API调用
+            return [
+                {
+                    id: 1,
+                    title: '星际战甲',
+                    description: '科幻题材第三人称射击游戏',
+                    rating: 4.8,
+                    reviews: 1200,
+                    image: '?prompt=futuristic%20sci-fi%20game%20cover%20art%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                    isHot: true
+                },
+                {
+                    id: 2,
+                    title: '艾尔登法环',
+                    description: '开放世界角色扮演游戏',
+                    rating: 4.9,
+                    reviews: 2500,
+                    image: '?prompt=fantasy%20role-playing%20game%20cover%20art%2C%20high%20quality%2C%20dark%20theme&image_size=landscape_4_3',
+                    isNew: true
+                }
+            ];
+        }
+
+        async function fetchResources() {
+            // 这里将替换为实际的后端API调用
+            return [
+                {
+                    id: 1,
+                    title: 'GTA V 终极模组包',
+                    description: '包含100+个高质量模组，提升游戏体验',
+                    downloads: 12500,
+                    image: '?prompt=game%20mod%20pack%20thumbnail%2C%20high%20quality%2C%20dark%20theme&image_size=square',
+                    tags: ['GTA V', '模组', '2024']
+                }
+            ];
+        }
+
+        async function fetchCommunityPosts() {
+            // 这里将替换为实际的后端API调用
+            return [
+                {
+                    id: 1,
+                    author: '张三',
+                    avatar: '?prompt=profile%20picture%20of%20a%20gamer%20male%2C%20realistic&image_size=square',
+                    title: '《艾尔登法环》最新DLC讨论',
+                    content: '大家觉得最新的DLC怎么样？我个人认为 bosses 设计得非常棒，尤其是最后的那个...',
+                    time: '2小时前',
+                    comments: 24,
+                    likes: 156,
+                    views: 342
+                }
+            ];
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 可以在这里添加页面初始化逻辑
+            console.log('GamePortal 初始化完成');
+        });
+    </script>
+</body>
+</html>

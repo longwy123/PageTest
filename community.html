@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区 - GamePortal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .hover-scale {
+                transition: transform 0.3s ease;
+            }
+            .hover-scale:hover {
+                transform: scale(1.03);
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-light font-sans">
+    <!-- 导航栏 -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-dark/90 bg-blur border-b border-gray-800">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                    <i class="fa fa-gamepad text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+            </div>
+            
+            <!-- 主导航 -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="font-medium hover:text-primary transition-colors">首页</a>
+                <a href="games.html" class="font-medium hover:text-primary transition-colors">游戏库</a>
+                <a href="downloads.html" class="font-medium hover:text-primary transition-colors">资源下载</a>
+                <a href="community.html" class="font-medium text-primary border-b-2 border-primary pb-1">社区</a>
+            </div>
+            
+            <!-- 用户操作 -->
+            <div class="flex items-center space-x-4 user-actions">
+                <button class="hidden md:block px-4 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 transition-colors">
+                    <i class="fa fa-search mr-2"></i>搜索
+                </button>
+                <a href="login.html" class="px-4 py-2 rounded-lg border border-gray-700 hover:border-primary transition-colors">
+                    登录
+                </a>
+                <a href="register.html" class="px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 transition-colors">
+                    注册
+                </a>
+                <button class="md:hidden text-xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 页面标题 -->
+    <section class="pt-32 pb-16 bg-gradient-to-b from-gray-900 to-dark">
+        <div class="container mx-auto px-4">
+            <h1 class="text-4xl font-bold mb-4">社区</h1>
+            <p class="text-gray-400 max-w-2xl">
+                加入我们的社区，与其他玩家交流游戏心得、分享资源、讨论攻略，一起创造更好的游戏体验。
+            </p>
+        </div>
+    </section>
+
+    <!-- 社区内容 -->
+    <section class="py-12 bg-gray-900">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- 左侧边栏 -->
+                <div class="lg:w-1/4 space-y-6">
+                    <!-- 发布帖子按钮 -->
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+                        <button class="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 transition-colors flex items-center justify-center font-medium">
+                            <i class="fa fa-plus mr-2"></i> 发布新帖子
+                        </button>
+                    </div>
+                    
+                    <!-- 分类 -->
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+                        <h3 class="font-bold text-lg mb-4">分类</h3>
+                        <ul class="space-y-2">
+                            <li>
+                                <a href="#" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-700/50 transition-colors">
+                                    <span>综合讨论</span>
+                                    <span class="bg-gray-700 text-xs px-2 py-1 rounded-full">128</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-700/50 transition-colors">
+                                    <span>游戏攻略</span>
+                                    <span class="bg-gray-700 text-xs px-2 py-1 rounded-full">86</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-700/50 transition-colors">
+                                    <span>资源分享</span>
+                                    <span class="bg-gray-700 text-xs px-2 py-1 rounded-full">64</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-700/50 transition-colors">
+                                    <span>问题求助</span>
+                                    <span class="bg-gray-700 text-xs px-2 py-1 rounded-full">42</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="flex items-center justify-between p-2 rounded-lg hover:bg-gray-700/50 transition-colors">
+                                    <span>活动公告</span>
+                                    <span class="bg-gray-700 text-xs px-2 py-1 rounded-full">18</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- 热门标签 -->
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+                        <h3 class="font-bold text-lg mb-4">热门标签</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #艾尔登法环
+                            </a>
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #赛博朋克2077
+                            </a>
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #Minecraft
+                            </a>
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #GTA V
+                            </a>
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #巫师3
+                            </a>
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #Valheim
+                            </a>
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #模组
+                            </a>
+                            <a href="#" class="text-xs px-3 py-1 rounded-full bg-gray-700 hover:bg-primary/30 transition-colors">
+                                #攻略
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计信息 -->
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+                        <h3 class="font-bold text-lg mb-4">社区统计</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">注册用户</span>
+                                <span class="font-medium">12,586</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">今日活跃</span>
+                                <span class="font-medium">842</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">总帖子数</span>
+                                <span class="font-medium">3,241</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">总回复数</span>
+                                <span class="font-medium">18,756</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧主内容 -->
+                <div class="lg:w-3/4 space-y-6">
+                    <!-- 筛选 -->
+                    <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-4">
+                        <div class="flex flex-wrap gap-4 items-center">
+                            <div class="relative">
+                                <select class="appearance-none px-4 py-2 pr-10 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-primary cursor-pointer">
+                                    <option>最新发布</option>
+                                    <option>热门讨论</option>
+                                    <option>最多回复</option>
+                                    <option>精华帖子</option>
+                                </select>
+                                <i class="fa fa-chevron-down absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
+                            </div>
+                            <div class="relative flex-1 max-w-md">
+                                <input type="text" placeholder="搜索帖子..." class="w-full px-4 py-2 pl-10 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-primary">
+                                <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 帖子列表 -->
+                    <div class="space-y-4">
+                        <!-- 帖子 1 -->
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start gap-4">
+                                    <img src="?prompt=profile%20picture%20of%20a%20gamer%20male%2C%20realistic&image_size=square" alt="User" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="font-medium">张三</h4>
+                                            <span class="text-xs px-2 py-0.5 rounded-full bg-primary/20 text-primary">版主</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">2小时前 · 综合讨论</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="text-gray-400 hover:text-primary transition-colors">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">《艾尔登法环》最新DLC讨论</h3>
+                            <p class="text-gray-400 mb-6">
+                                大家觉得最新的DLC怎么样？我个人认为 bosses 设计得非常棒，尤其是最后的那个 boss，难度适中但很有挑战性。剧情也很丰富，补充了很多主线的内容。不过掉率好像有点低，刷了好几个小时都没出想要的装备...
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #艾尔登法环
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #DLC
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #讨论
+                                </a>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <div class="flex items-center gap-6">
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-eye"></i>
+                                        <span>342</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-comment"></i>
+                                        <span>24</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-heart"></i>
+                                        <span>156</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-share-alt mr-1"></i> 分享
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 帖子 2 -->
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start gap-4">
+                                    <img src="?prompt=profile%20picture%20of%20a%20gamer%20female%2C%20realistic&image_size=square" alt="User" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="font-medium">李四</h4>
+                                            <span class="text-xs px-2 py-0.5 rounded-full bg-secondary/20 text-secondary">精英会员</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">5小时前 · 资源分享</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="text-gray-400 hover:text-primary transition-colors">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">分享一个《赛博朋克2077》的超酷模组</h3>
+                            <p class="text-gray-400 mb-6">
+                                这个模组可以让你在游戏中使用更多的武器和载具，非常推荐给大家。模组包含了50+种新武器、20+种新载具，还有一些平衡调整。安装方法很简单，只需要将文件解压到游戏目录即可。链接在下面，需要的朋友可以下载...
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #赛博朋克2077
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #模组
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #分享
+                                </a>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <div class="flex items-center gap-6">
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-eye"></i>
+                                        <span>512</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-comment"></i>
+                                        <span>36</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-heart"></i>
+                                        <span>203</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-share-alt mr-1"></i> 分享
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 帖子 3 -->
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start gap-4">
+                                    <img src="?prompt=profile%20picture%20of%20a%20gamer%20young%20man%2C%20realistic&image_size=square" alt="User" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="font-medium">王五</h4>
+                                        </div>
+                                        <p class="text-xs text-gray-500">昨天 · 问题求助</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="text-gray-400 hover:text-primary transition-colors">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">求《Valheim》的建筑技巧分享</h3>
+                            <p class="text-gray-400 mb-6">
+                                最近开始玩《Valheim》，想建一个漂亮的基地，有没有大佬分享一些建筑技巧？尤其是关于如何设计防御工事和美观的房屋结构。我目前只会建简单的木屋，感觉不够美观也不够实用。希望能得到一些建议，谢谢大家！
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #Valheim
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #建筑
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #求助
+                                </a>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <div class="flex items-center gap-6">
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-eye"></i>
+                                        <span>421</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-comment"></i>
+                                        <span>42</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-heart"></i>
+                                        <span>138</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-share-alt mr-1"></i> 分享
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 帖子 4 -->
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start gap-4">
+                                    <img src="?prompt=profile%20picture%20of%20a%20gamer%20woman%2C%20realistic&image_size=square" alt="User" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="font-medium">赵六</h4>
+                                            <span class="text-xs px-2 py-0.5 rounded-full bg-accent/20 text-accent">攻略大师</span>
+                                        </div>
+                                        <p class="text-xs text-gray-500">3天前 · 游戏攻略</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="text-gray-400 hover:text-primary transition-colors">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">《赛博朋克2077》全结局攻略</h3>
+                            <p class="text-gray-400 mb-6">
+                                最近通关了《赛博朋克2077》的所有结局，整理了一份详细的攻略，包含如何触发每个结局的条件和选择。游戏总共有5个主要结局，每个结局都有不同的条件和触发方式。下面是详细的攻略内容...
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #赛博朋克2077
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #攻略
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #结局
+                                </a>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <div class="flex items-center gap-6">
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-eye"></i>
+                                        <span>876</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-comment"></i>
+                                        <span>58</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-heart"></i>
+                                        <span>342</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-share-alt mr-1"></i> 分享
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 帖子 5 -->
+                        <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-5 hover-scale">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-start gap-4">
+                                    <img src="?prompt=profile%20picture%20of%20a%20gamer%20middle%20aged%20man%2C%20realistic&image_size=square" alt="User" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="flex items-center gap-2">
+                                            <h4 class="font-medium">孙七</h4>
+                                        </div>
+                                        <p class="text-xs text-gray-500">5天前 · 综合讨论</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <button class="text-gray-400 hover:text-primary transition-colors">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <h3 class="font-bold text-xl mb-3">2024年最值得期待的游戏有哪些？</h3>
+                            <p class="text-gray-400 mb-6">
+                                大家觉得2024年有哪些值得期待的游戏？我个人比较期待《星空》的大型DLC，还有《上古卷轴6》的消息。另外听说《GTA 6》可能会在年底发布，不知道是不是真的。还有一些独立游戏也很值得关注，比如《死亡搁浅2》...
+                            </p>
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #2024
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #游戏
+                                </a>
+                                <a href="#" class="text-xs px-2 py-1 rounded bg-gray-700 hover:bg-gray-600 transition-colors">
+                                    #期待
+                                </a>
+                            </div>
+                            <div class="flex items-center justify-between text-sm text-gray-400">
+                                <div class="flex items-center gap-6">
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-eye"></i>
+                                        <span>654</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-comment"></i>
+                                        <span>72</span>
+                                    </button>
+                                    <button class="flex items-center gap-1 hover:text-primary transition-colors">
+                                        <i class="fa fa-heart"></i>
+                                        <span>289</span>
+                                    </button>
+                                </div>
+                                <button class="hover:text-primary transition-colors">
+                                    <i class="fa fa-share-alt mr-1"></i> 分享
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 分页 -->
+                    <div class="flex justify-center mt-8">
+                        <div class="flex items-center space-x-2">
+                            <button class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center hover:border-primary transition-colors">
+                                <i class="fa fa-chevron-left"></i>
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                                1
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center hover:border-primary transition-colors">
+                                2
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center hover:border-primary transition-colors">
+                                3
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center hover:border-primary transition-colors">
+                                ...
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center hover:border-primary transition-colors">
+                                15
+                            </button>
+                            <button class="w-10 h-10 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center hover:border-primary transition-colors">
+                                <i class="fa fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 订阅区域 -->
+    <section class="py-20 bg-gradient-to-r from-primary/20 to-secondary/20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">获取最新游戏资讯</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto mb-8">订阅我们的邮件列表，及时获取最新的游戏发布、资源更新和社区活动信息</p>
+            <div class="max-w-md mx-auto flex">
+                <input type="email" placeholder="输入您的邮箱地址" class="flex-1 px-4 py-3 rounded-l-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-primary">
+                <button class="px-6 py-3 rounded-r-lg bg-primary hover:bg-primary/90 transition-colors font-medium">
+                    订阅
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                            <i class="fa fa-gamepad text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">
+                        您的一站式游戏资源平台，提供最新最热的游戏和资源下载。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-discord"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition-colors">首页</a></li>
+                        <li><a href="games.html" class="hover:text-primary transition-colors">游戏库</a></li>
+                        <li><a href="downloads.html" class="hover:text-primary transition-colors">资源下载</a></li>
+                        <li><a href="community.html" class="hover:text-primary transition-colors">社区</a></li>
+                        <li><a href="login.html" class="hover:text-primary transition-colors">登录</a></li>
+                        <li><a href="register.html" class="hover:text-primary transition-colors">注册</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">支持</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">帮助中心</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">常见问题</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">联系我们</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">隐私政策</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">服务条款</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-3 w-5"></i>
+                            <span>support@gameportal.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone mr-3 w-5"></i>
+                            <span>+86 123 4567 8910</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-map-marker mr-3 w-5"></i>
+                            <span>北京市朝阳区游戏大厦</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2024 GamePortal. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/auth.js"></script>
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+                header.classList.remove('py-3');
+            } else {
+                header.classList.add('py-3');
+                header.classList.remove('py-2');
+            }
+        });
+
+        // 模拟后端API调用
+        async function fetchPosts() {
+            // 这里将替换为实际的后端API调用
+            return [
+                {
+                    id: 1,
+                    title: '《艾尔登法环》最新DLC讨论',
+                    content: '大家觉得最新的DLC怎么样？我个人认为 bosses 设计得非常棒，尤其是最后的那个...',
+                    author: '张三',
+                    authorAvatar: '?prompt=profile%20picture%20of%20a%20gamer%20male%2C%20realistic&image_size=square',
+                    authorRole: '版主',
+                    time: '2小时前',
+                    category: '综合讨论',
+                    views: 342,
+                    comments: 24,
+                    likes: 156,
+                    tags: ['#艾尔登法环', '#DLC', '#讨论']
+                }
+            ];
+        }
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 可以在这里添加页面初始化逻辑
+            console.log('社区页面初始化完成');
+        });
+    </script>
+</body>
+</html>

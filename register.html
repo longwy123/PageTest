@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - GamePortal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                        dark: '#1e293b',
+                        light: '#f8fafc'
+                    },
+                    fontFamily: {
+                        sans: ['Noto Sans SC', 'sans-serif'],
+                        serif: ['Noto Serif SC', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            }
+            .text-gradient {
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-light font-sans min-h-screen flex flex-col">
+    <!-- 导航栏 -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-dark/90 bg-blur border-b border-gray-800">
+        <nav class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                    <i class="fa fa-gamepad text-xl"></i>
+                </div>
+                <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+            </div>
+            
+            <!-- 主导航 -->
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="index.html" class="font-medium hover:text-primary transition-colors">首页</a>
+                <a href="games.html" class="font-medium hover:text-primary transition-colors">游戏库</a>
+                <a href="downloads.html" class="font-medium hover:text-primary transition-colors">资源下载</a>
+                <a href="community.html" class="font-medium hover:text-primary transition-colors">社区</a>
+            </div>
+            
+            <!-- 用户操作 -->
+            <div class="flex items-center space-x-4">
+                <button class="hidden md:block px-4 py-2 rounded-lg bg-primary/20 hover:bg-primary/30 transition-colors">
+                    <i class="fa fa-search mr-2"></i>搜索
+                </button>
+                <a href="login.html" class="px-4 py-2 rounded-lg border border-gray-700 hover:border-primary transition-colors">
+                    登录
+                </a>
+                <a href="register.html" class="px-4 py-2 rounded-lg bg-primary text-white">
+                    注册
+                </a>
+                <button class="md:hidden text-xl">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 注册表单 -->
+    <main class="flex-1 flex items-center justify-center pt-32 pb-20">
+        <div class="container mx-auto px-4">
+            <div class="max-w-md mx-auto">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold mb-2">注册</h1>
+                    <p class="text-gray-400">创建新账号，加入我们的游戏社区</p>
+                </div>
+                
+                <div class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 space-y-6">
+                    <!-- 表单 -->
+                    <form class="space-y-4">
+                        <!-- 用户名 -->
+                        <div>
+                            <label for="username" class="block text-sm font-medium mb-2">用户名</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                                <input type="text" id="username" class="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-primary" placeholder="请输入您的用户名">
+                            </div>
+                        </div>
+                        
+                        <!-- 邮箱 -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium mb-2">邮箱</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa fa-envelope"></i>
+                                </span>
+                                <input type="email" id="email" class="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-primary" placeholder="请输入您的邮箱">
+                            </div>
+                        </div>
+                        
+                        <!-- 密码 -->
+                        <div>
+                            <label for="password" class="block text-sm font-medium mb-2">密码</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                <input type="password" id="password" class="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-primary" placeholder="请输入您的密码">
+                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-white transition-colors">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 确认密码 -->
+                        <div>
+                            <label for="confirm-password" class="block text-sm font-medium mb-2">确认密码</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                                    <i class="fa fa-lock"></i>
+                                </span>
+                                <input type="password" id="confirm-password" class="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-700 border border-gray-600 focus:outline-none focus:border-primary" placeholder="请再次输入您的密码">
+                                <button type="button" class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-white transition-colors">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 同意条款 -->
+                        <div class="flex items-start">
+                            <input id="terms" type="checkbox" class="w-4 h-4 mt-1 rounded border-gray-600 text-primary focus:ring-primary bg-gray-700">
+                            <label for="terms" class="ml-2 block text-sm text-gray-400">
+                                我同意
+                                <a href="#" class="text-primary hover:text-primary/80 transition-colors">服务条款</a>
+                                和
+                                <a href="#" class="text-primary hover:text-primary/80 transition-colors">隐私政策</a>
+                            </label>
+                        </div>
+                        
+                        <!-- 注册按钮 -->
+                        <button type="submit" class="w-full py-3 rounded-lg bg-primary hover:bg-primary/90 transition-colors font-medium">
+                            注册
+                        </button>
+                    </form>
+                    
+                    <!-- 分隔线 -->
+                    <div class="relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t border-gray-700"></div>
+                        </div>
+                        <div class="relative flex justify-center">
+                            <span class="px-4 bg-gray-800/50 text-sm text-gray-500">其他注册方式</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 社交注册 -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <button class="flex items-center justify-center py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors">
+                            <i class="fa fa-facebook text-blue-500 text-xl"></i>
+                        </button>
+                        <button class="flex items-center justify-center py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors">
+                            <i class="fa fa-google text-red-500 text-xl"></i>
+                        </button>
+                        <button class="flex items-center justify-center py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors">
+                            <i class="fa fa-discord text-indigo-500 text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- 登录链接 -->
+                    <div class="text-center">
+                        <p class="text-sm text-gray-400">
+                            已有账号？
+                            <a href="login.html" class="text-primary hover:text-primary/80 transition-colors font-medium">立即登录</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark border-t border-gray-800 py-8 mt-auto">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                            <i class="fa fa-gamepad text-xl"></i>
+                        </div>
+                        <span class="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-gradient">GamePortal</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4">
+                        您的一站式游戏资源平台，提供最新最热的游戏和资源下载。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-discord"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary/20 transition-colors">
+                            <i class="fa fa-youtube-play"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">快速链接</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html" class="hover:text-primary transition-colors">首页</a></li>
+                        <li><a href="games.html" class="hover:text-primary transition-colors">游戏库</a></li>
+                        <li><a href="downloads.html" class="hover:text-primary transition-colors">资源下载</a></li>
+                        <li><a href="community.html" class="hover:text-primary transition-colors">社区</a></li>
+                        <li><a href="login.html" class="hover:text-primary transition-colors">登录</a></li>
+                        <li><a href="register.html" class="hover:text-primary transition-colors">注册</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">支持</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-primary transition-colors">帮助中心</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">常见问题</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">联系我们</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">隐私政策</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">服务条款</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">联系我们</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center">
+                            <i class="fa fa-envelope mr-3 w-5"></i>
+                            <span>support@gameportal.com</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-phone mr-3 w-5"></i>
+                            <span>+86 123 4567 8910</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fa fa-map-marker mr-3 w-5"></i>
+                            <span>北京市朝阳区游戏大厦</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-6 text-center text-gray-500 text-sm">
+                <p>© 2024 GamePortal. 保留所有权利。</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('py-2');
+                header.classList.remove('py-3');
+            } else {
+                header.classList.add('py-3');
+                header.classList.remove('py-2');
+            }
+        });
+
+        // 密码显示/隐藏
+        document.querySelectorAll('.fa-eye').forEach(icon => {
+            icon.addEventListener('click', function() {
+                const passwordInput = this.parentElement.previousElementSibling;
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                }
+            });
+        });
+
+        // 表单提交
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // 这里将替换为实际的注册逻辑
+            console.log('注册表单提交');
+            // 模拟注册成功
+            alert('注册成功！');
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>
